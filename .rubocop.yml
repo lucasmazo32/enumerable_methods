@@ -20,6 +20,8 @@ Metrics/ClassLength:
   Max: 150
 Metrics/BlockLength:
   ExcludedMethods: ["describe"]
+Metrics/ModuleLength:
+  Max: 120
 
 Style/Documentation:
   Enabled: false

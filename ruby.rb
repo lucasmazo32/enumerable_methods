@@ -79,19 +79,17 @@ module Enumerable
   end
 
   def my_map(proc_g = nil)
+    my_arr = []
     if proc_g.nil?
-      my_arr = []
       my_each do |x|
         my_arr << yield(x)
       end
-      my_arr
     else
-      my_arr = []
       my_each do |x|
         my_arr << proc_g.call(x)
       end
-      my_arr
     end
+    my_arr
   end
 
   def my_inject(opp = nil)
@@ -101,34 +99,32 @@ module Enumerable
         my_each do |x|
           cons += x if yield(x)
         end
-        cons
       else
         (0...length).each do |i|
           puts cons
           cons = yield(cons, self[i])
         end
-        cons
       end
+      cons
+    else
+      'Error!'
     end
   end
 
   def multiply_els(arr = nil)
-    result = 1
+    ans = 1
     if arr.nil?
       (0...length).each do |i|
-        result *= self[i]
+        ans *= self[i]
       end
-      result
     else
       (0...arr.length).each do |i|
-        result *= arr[i]
+        ans *= arr[i]
       end
-      result
     end
+    ans
   end
 end
-
-include Enumerable
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
@@ -156,19 +152,20 @@ a = [1, 2, 2, 4, 3, 4, 1, 4]
 
 line.call
 
-puts a.my_any? { |x| x == 2 }
+puts(a.my_any? { |x| x == 2 })
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
 line.call
 
-puts a.my_none? { |x| x == 2 }
+puts(a.my_none? { |x| x == 2 })
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
 line.call
 
-# If you dont type anything after the .my_count, it will give you the length. If you type a number it will give you the match or you can add a block with the condition
+# If you dont type anything after the .my_count, it will give you the length. If you type a
+# number it will give you the match or you can add a block with the condition
 
 puts a.my_count(4)
 
@@ -176,14 +173,14 @@ a = [1, 2, 2, 4, 3, 4, 1, 4]
 
 line.call
 
-puts a.my_map { |x| x * 2 }
+puts(a.my_map { |x| x * 2 })
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
 line.call
 # You can also call my_inject as (:+)
 
-puts a.my_inject { |sum, x| sum + x }
+puts(a.my_inject { |sum, x| sum + x })
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
