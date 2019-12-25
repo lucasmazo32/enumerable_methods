@@ -1,16 +1,20 @@
 module Enumerable
 
     def my_each
+        arr = []
         for i in 0...length()
-            yield(self[i])
+            arr << yield(self[i])
         end
+        arr
     end
 
     def my_each_with_index
+        arr = []
         for i in 0...length()
             self[i] = [self[i], i]
-            yield(self[i])
+            arr << yield(self[i])
         end
+        arr
     end
 
     def my_select
@@ -77,13 +81,52 @@ module Enumerable
         end
     end
 
-    def my
-        my_each do |x|
+    def my_map (proc_g = nil)
+        if proc_g == nil
+            my_arr = []
+            my_each do |x|
+                my_arr << yield(x)
+            end
+            return my_arr
+        else
+            my_arr = []
+            my_each do |x|
+                my_arr << proc_g.call(x)
+            end
+            return my_arr
         end
     end
 
-    def my
-        my_each do |x|
+    def my_inject(opp = nil)
+        cons = 0
+        if block_given?
+            if opp !=nil
+                my_each do |x|
+                    cons += x if yield(x)
+                end
+                cons
+            else
+                for i in 0...length()
+                    puts cons
+                    cons = yield(cons, self[i])
+                end
+                cons
+            end
+        end
+    end
+
+    def multiply_els (arr = nil)
+        result = 1
+        if arr == nil
+            for i in 0...length()
+                result *= self[i]
+            end
+            result
+        else
+            for i in 0...arr.length()
+                result *= arr[i]
+            end
+            result
         end
     end
 end
@@ -92,16 +135,70 @@ include Enumerable
 
 a = [1, 2, 2, 4, 3, 4, 1, 4]
 
-#puts a.my_each{|x| puts "This is my each #{x}"}
+line = Proc.new { puts '-----------------------------------' }
 
-#puts a.my_each_with_index { |x,ind| puts "#{x} is value #{ind}"}
+a.my_each{|x| puts "This is my each #{x}"}
 
-#puts a.my_select(&:even?)
+line.call
 
-#puts a.my_all?(&:even?)
+a.my_each_with_index { |x,ind| puts "#{x} is value #{ind}"}
 
-#puts a.my_any?
+a = [1, 2, 2, 4, 3, 4, 1, 4]
 
-#puts a.my_none?
+line.call
 
-#puts a.my_count(4)
+puts a.my_select(&:even?)
+
+line.call
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+puts a.my_all?(&:even?)
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+
+puts a.my_any?{ |x| x == 2 }
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+
+puts a.my_none? { |x| x==2 }
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+
+# If you dont type anything after the .my_count, it will give you the length. If you type a number it will give you the match or you can add a block with the condition
+
+puts a.my_count(4)
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+
+puts a.my_map{ |x| x*2 }
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+# You can also call my_inject as (:+)
+
+puts a.my_inject{ |sum, x| sum + x}
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+#You can also call multiply_els as example.multiply_els(my_array)
+
+puts a.multiply_els
+
+a = [1, 2, 2, 4, 3, 4, 1, 4]
+
+line.call
+
+my_proc = Proc.new{ |x| x*2 }
+
+puts a.my_map(my_proc)
