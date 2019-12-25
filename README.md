@@ -10,7 +10,7 @@
 ### How to use
 - Select the method you want to use (They work the same as the original ones, even with empty arrays)
   - `my_each, my_map, my_select, etc`
-- You can use the same array as the une I have in the program or modify it.
+- You can use the same array as the one I have in the program or modify it.
 - Run the program using ruby 
   - `ruby bubble.rb`
 
