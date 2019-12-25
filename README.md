@@ -1,4 +1,4 @@
-# _Bubble Sort_
+# _Enumerable Methods_
 
 > Based on our new knowledge of ruby, we attempted to make a sorting method using the [bubble sort algorithm ](https://en.wikipedia.org/wiki/Bubble_sort), this is our result.
 
