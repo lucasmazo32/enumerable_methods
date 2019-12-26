@@ -32,29 +32,42 @@ module Enumerable
     my_arr
   end
 
-  def my_all?
+  def my_all?(ver = nil)
     if block_given?
       my_each do |x|
         return false unless yield(x)
       end
-      true
+    elsif ver.nil?
+      my_each do |x|
+        return false if x.nil?
+      end
     else
-      false
+      my_each do |x|
+        return false unless x.is_a? ver
+      end
     end
+    true
   end
 
-  def my_any?
+  def my_any?(ver = nil)
     if block_given?
       my_each do |x|
         return true if yield(x)
       end
       false
-    else
+    elsif ver.nil?
+      return false if length.zero?
+
       true
+    else
+      my_each do |x|
+        return true if x.is_a? ver
+      end
+      false
     end
   end
 
-  def my_none?
+  def my_none?(ver = nil)
     if block_given?
       my_each do |x|
         return false if yield(x)
@@ -63,6 +76,15 @@ module Enumerable
     elsif my_any? { |x| x == true }
       false
     else
+      if ver.nil?
+        my_each do |x|
+          return false if x == true
+        end
+      else
+        my_each do |x|
+          return false if x.is_a? ver
+        end
+      end
       true
     end
   end
@@ -103,17 +125,17 @@ module Enumerable
   def my_inject(opp = nil)
     cons = 0
     if block_given?
-      if !opp.nil?
+      if opp.nil?
         my_each do |x|
-          cons += x if yield(x)
+          cons = yield(cons, x)
         end
+        cons
       else
-        (0...length).each do |i|
-          puts cons
-          cons = yield(cons, self[i])
+        my_each do |x|
+          opp = yield(opp, x)
         end
+        opp
       end
-      cons
     else
       'Error!'
     end
