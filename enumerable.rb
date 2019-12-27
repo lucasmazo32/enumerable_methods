@@ -152,6 +152,7 @@ module Enumerable
         sum += x
       end
       return cons - 1 if cons == sum
+
       return cons
     elsif !opposym.nil? && block_given?
       my_each do |x|
@@ -189,7 +190,7 @@ module Enumerable
   end
 end
 
-puts 5.my_inject(:+)
-puts [2 ,4 ,5].my_inject(1,:+)
-puts [2 ,4 ,5].my_inject(1){ |product, x| x*product }
-puts [2 ,4 ,5].my_inject{ |product, x| x*product }
+puts [2, 4, 5].my_inject(:+)
+puts [2, 4, 5].my_inject(1, :+)
+puts [2, 4, 5].my_inject(1) { |product, x| x * product }
+puts([2, 4, 5].my_inject { |product, x| x * product })
