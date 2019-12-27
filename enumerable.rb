@@ -37,12 +37,10 @@ module Enumerable
 
   def my_all?(ver = nil)
     if block_given?
-      puts 'this method'
       my_each do |x|
         return false unless yield(x)
       end
     elsif ver.nil?
-      puts 'this method'
       my_each do |x|
         return false if x.nil? || x == false
       end
@@ -89,12 +87,10 @@ module Enumerable
 
   def my_none?(ver = nil)
     if block_given?
-      puts 'this method'
       my_each do |x|
         return false if yield(x)
       end
     elsif ver.nil?
-      puts 'this method'
       my_each do |x|
         return false if x == true
       end
