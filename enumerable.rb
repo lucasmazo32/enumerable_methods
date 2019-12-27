@@ -146,7 +146,8 @@ module Enumerable
   def my_inject(opposym = nil, sym = nil)
     cons = 1
     sum = 1
-    if opposym.nil? && sym.nil?
+    memo = ''
+    if opposym.nil? && sym.nil? && my_all?(Integer)
       my_each do |x|
         cons = yield(cons, x)
         sum += x
@@ -154,6 +155,11 @@ module Enumerable
       return cons - 1 if cons == sum
 
       return cons
+    elsif opposym.nil? && sym.nil? && my_all?(String)
+      my_each do |x|
+        memo = yield(memo, x)
+      end
+      return memo
     elsif !opposym.nil? && block_given?
       my_each do |x|
         opposym = yield(opposym, x)
@@ -189,8 +195,3 @@ module Enumerable
     ans
   end
 end
-
-puts [2, 4, 5].my_inject(:+)
-puts [2, 4, 5].my_inject(1, :+)
-puts [2, 4, 5].my_inject(1) { |product, x| x * product }
-puts([2, 4, 5].my_inject { |product, x| x * product })
