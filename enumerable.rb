@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#comment added to check how pull requests work 6u9
+# comment added to check how pull requests work 6u9
 
 module Enumerable
   def my_each
