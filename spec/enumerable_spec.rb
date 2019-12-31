@@ -174,4 +174,13 @@ RSpec.describe Enumerable do
       expect([1, 2, 3].my_inject(1, :+)).to eql(7)
     end
   end
+
+  describe '#multiply_els' do
+    it 'if no parameter is given, it will multiply the given array' do
+      expect([1, 2, 3].multiply_els).to eql(6)
+    end
+    it 'if a parameter is given, it will multiply the parameter' do
+      expect([1, 2, 3].multiply_els([2, 3, 4])).to eql(24)
+    end
+  end
 end
