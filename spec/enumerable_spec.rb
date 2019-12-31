@@ -158,4 +158,20 @@ RSpec.describe Enumerable do
       expect([1, 2, 3].my_map { |x| x * 2 }).to eql([2, 4, 6])
     end
   end
+
+  describe '#my_inject' do
+    it 'if a block is given but no parameters are given, it yields the block' do
+      expect([1, 2, 3].my_inject { |sum, x| sum + x }).to eql(6)
+    end
+    it 'if a block and a parameters are given, it will yield the block with the initial result in the parameter' do
+      expect([1, 2, 3].my_inject(1) { |sum, x| x + sum }).to eql(7)
+    end
+    it 'if a block is not given, and I have one parameter, it will do de operation' do
+      expect([1, 2, 3].my_inject(:+)).to eql(6)
+    end
+    it 'if a block is not given and I have two parameters,
+          the first one is the initial result and the second is the operator' do
+      expect([1, 2, 3].my_inject(1, :+)).to eql(7)
+    end
+  end
 end
