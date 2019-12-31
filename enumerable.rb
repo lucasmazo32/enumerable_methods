@@ -7,7 +7,8 @@ module Enumerable
     arr = []
     real_arr = to_a
     (0...real_arr.length).each do |i|
-      arr << yield(real_arr[i])
+      yield (real_arr[i])
+      arr << real_arr[i]
     end
     arr
   end
@@ -18,9 +19,10 @@ module Enumerable
     arr = []
     cont = 0
     my_each do |x|
+      arr << x
       x = [x, cont]
       cont += 1
-      arr << yield(x)
+      yield(x)
     end
     arr
   end
@@ -195,3 +197,7 @@ module Enumerable
     ans
   end
 end
+
+arr = [1,2,3]
+
+puts arr.my_each_with_index{ |x, index| index }
