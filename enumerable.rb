@@ -7,7 +7,8 @@ module Enumerable
     arr = []
     real_arr = to_a
     (0...real_arr.length).each do |i|
-      arr << yield(real_arr[i])
+      yield (real_arr[i])
+      arr << real_arr[i]
     end
     arr
   end
@@ -18,9 +19,10 @@ module Enumerable
     arr = []
     cont = 0
     my_each do |x|
+      arr << x
       x = [x, cont]
       cont += 1
-      arr << yield(x)
+      yield(x)
     end
     arr
   end
@@ -50,7 +52,7 @@ module Enumerable
       end
     elsif ver.is_a? Regexp
       my_each do |x|
-        return false unless x.match?(ver)
+        return false unless x.to_s.match?(ver)
       end
     else
       my_each do |x|
@@ -75,7 +77,7 @@ module Enumerable
       end
     elsif ver.is_a? Regexp
       my_each do |x|
-        return true if x.match?(ver)
+        return true if x.to_s.match?(ver)
       end
     else
       my_each do |x|
@@ -92,7 +94,7 @@ module Enumerable
       end
     elsif ver.nil?
       my_each do |x|
-        return false if x == true
+        return false unless x == false || x.nil?
       end
     elsif ver.is_a? Class
       my_each do |x|
@@ -100,7 +102,7 @@ module Enumerable
       end
     elsif ver.is_a? Regexp
       my_each do |x|
-        return false if x.match?(ver)
+        return false if x.to_s.match?(ver)
       end
     else
       my_each do |x|
@@ -195,3 +197,6 @@ module Enumerable
     ans
   end
 end
+
+p [false, false, 3].my_none?
+p [false, false, true].my_none?
